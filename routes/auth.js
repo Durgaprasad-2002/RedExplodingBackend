@@ -19,13 +19,12 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const userId = `user:${email}`;
 
-    // Store user data in Redis
     await redis.hset(userId, {
       name,
       username,
       email,
       password: hashedPassword,
-      gameHistory: JSON.stringify([]), // Initialize game history as an empty array
+      gameHistory: JSON.stringify([]),
     });
 
     res.status(201).json({ message: "User registered successfully" });
